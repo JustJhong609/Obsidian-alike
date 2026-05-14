@@ -25,11 +25,11 @@ export const Sidebar = () => {
     <motion.aside
       initial={false}
       animate={{ width: isOpen ? 260 : 40 }}
-      className="h-screen bg-[#252526] border-r border-[#333] flex flex-col overflow-hidden relative"
+      className="h-screen bg-[#131517] border-r border-[#282a2c] flex flex-col overflow-hidden relative"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="absolute right-1 top-2 p-1 hover:bg-[#333] rounded z-10 text-[#888]"
+        className="absolute right-1 top-2 p-1 hover:bg-[#1e1f21] rounded z-10 text-[#888]"
       >
         {isOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
       </button>
@@ -47,7 +47,7 @@ export const Sidebar = () => {
                 <h1 className="text-sm font-semibold text-[#888] uppercase tracking-wider">Notes</h1>
                 <button
                   onClick={() => addNote()}
-                  className="p-1 hover:bg-[#333] rounded text-[#888] transition-colors"
+                  className="p-1 hover:bg-[#1e1f21] rounded text-[#888] transition-colors"
                   title="New Note (Ctrl+N)"
                 >
                   <Plus size={18} />
@@ -61,7 +61,7 @@ export const Sidebar = () => {
                   placeholder="Search notes..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-[#1e1e1e] border border-[#333] rounded px-8 py-1.5 text-xs focus:outline-none focus:border-[#007acc] transition-colors"
+                  className="w-full bg-[#0b0d0e] border border-[#282a2c] rounded px-8 py-1.5 text-xs focus:outline-none focus:border-[#4285f4] transition-colors"
                 />
               </div>
             </div>
@@ -78,15 +78,15 @@ export const Sidebar = () => {
                     whileHover={{ x: 4 }}
                     className={cn(
                       "group flex items-center justify-between p-2 rounded cursor-pointer transition-colors",
-                      activeNoteId === note.id ? "bg-[#37373d] text-white" : "hover:bg-[#2a2d2e] text-[#ccc]"
+                      activeNoteId === note.id ? "bg-[#1e1f21] text-white shadow-sm ring-1 ring-[#282a2c]" : "hover:bg-[#1a1c1e] text-[#ccc]"
                     )}
                     onClick={() => setActiveNote(note.id)}
                   >
                     <div className="flex items-center gap-2 overflow-hidden">
-                      <FileText size={14} className="shrink-0 text-[#888]" />
+                      <FileText size={14} className={cn("shrink-0", activeNoteId === note.id ? "text-[#4285f4]" : "text-[#888]")} />
                       <div className="flex flex-col overflow-hidden">
                         <span className="text-xs font-medium truncate">{note.title || 'Untitled'}</span>
-                        <span className="text-[10px] text-[#666]">
+                        <span className="text-[10px] text-[#555]">
                           {formatDistanceToNow(note.updatedAt)} ago
                         </span>
                       </div>
@@ -96,7 +96,7 @@ export const Sidebar = () => {
                         e.stopPropagation();
                         deleteNote(note.id);
                       }}
-                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-[#444] rounded text-[#888] transition-all"
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-[#282a2c] rounded text-[#888] transition-all"
                     >
                       <Trash2 size={12} />
                     </button>

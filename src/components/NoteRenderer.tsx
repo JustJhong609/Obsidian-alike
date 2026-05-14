@@ -12,13 +12,13 @@ interface NoteRendererProps {
 export const NoteRenderer = ({ content }: NoteRendererProps) => {
   const { setActiveNote, addNote, getNoteByTitle } = useNoteStore();
 
-  const handleLinkClick = (title: string) => {
+  const handleLinkClick = async (title: string) => {
     const existingNote = getNoteByTitle(title);
     if (existingNote) {
       setActiveNote(existingNote.id);
     } else {
-      const newId = addNote(title, '');
-      setActiveNote(newId);
+      const newId = await addNote(title, '');
+      if (newId) setActiveNote(newId);
     }
   };
 
@@ -38,7 +38,7 @@ export const NoteRenderer = ({ content }: NoteRendererProps) => {
           <span
             key={index}
             onClick={() => handleLinkClick(part)}
-            className="text-[#007acc] hover:underline cursor-pointer font-medium"
+            className="text-[#4285f4] hover:underline cursor-pointer font-medium"
           >
             [[{part}]]
           </span>

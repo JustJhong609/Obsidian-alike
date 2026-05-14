@@ -12,17 +12,21 @@ import { useHasHydrated } from '@/hooks/useHasHydrated';
 
 export default function Home() {
   const [showGraph, setShowGraph] = useState(false);
-  const { notes, addNote } = useNoteStore();
+  const { notes, addNote, fetchNotes } = useNoteStore();
   const hasHydrated = useHasHydrated();
 
   useEffect(() => {
-    if (hasHydrated && notes.length === 0) {
-      addNote(
-        'Welcome to Obsidian Alike',
-        '# Welcome\n\nThis is your personal knowledge base.\n\n## Features\n- **Linking**: Use [[Double Brackets]] to link notes.\n- **Graph**: Click the network icon in the bottom right to see your notes relationship.\n- **Markdown**: Full markdown support is included.\n\nTry creating a new note with `Ctrl+N` or clicking the plus icon in the sidebar!'
-      );
+    if (hasHydrated) {
+      fetchNotes().then(() => {
+        if (useNoteStore.getState().notes.length === 0) {
+          addNote(
+            'Welcome to Obsidian Alike',
+            '# Welcome\n\nThis is your personal knowledge base.\n\n## Features\n- **Linking**: Use [[Double Brackets]] to link notes.\n- **Graph**: Click the network icon in the bottom right to see your notes relationship.\n- **Markdown**: Full markdown support is included.\n\nTry creating a new note with `Ctrl+N` or clicking the plus icon in the sidebar!'
+          );
+        }
+      });
     }
-  }, [hasHydrated, notes.length, addNote]);
+  }, [hasHydrated, fetchNotes, addNote]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -53,7 +57,7 @@ export default function Home() {
         {/* Graph Toggle Button */}
         <button
           onClick={() => setShowGraph(true)}
-          className="absolute bottom-6 right-6 p-3 bg-[#007acc] text-white rounded-full shadow-lg hover:bg-[#0062a3] transition-all transform hover:scale-110 z-20"
+          className="absolute bottom-6 right-6 p-4 bg-[linear-gradient(135deg,#4285f4,#9b72cb,#ea4335)] text-white rounded-full shadow-[0_0_20px_rgba(66,133,244,0.4)] hover:shadow-[0_0_30px_rgba(66,133,244,0.6)] transition-all transform hover:scale-110 z-20"
           title="Open Graph View (Ctrl+G)"
         >
           <Network size={24} />
